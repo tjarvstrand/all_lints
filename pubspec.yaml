@@ -1,0 +1,8 @@
+name: _all_lints_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+workspace:
+  - packages/all_lints_generator

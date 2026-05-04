@@ -1,0 +1,25 @@
+[tools]
+dart = "3.11.2"
+
+[deps.dart]
+auto = true
+
+[tasks.generate]
+description = "Regenerate the all_lints package's lib/*.yaml files"
+dir = "{{config_root}}/packages/all_lints_generator"
+run = "dart run tool/generate.dart"
+sources = ["packages/all_lints_generator/tool/generate.dart", "pubspec.lock", "mise.toml"]
+
+[tasks."release:prepare"]
+description = "Prepare a patch release for the latest stable Dart SDK (regenerate, bump, write CHANGELOG entry)"
+dir = "{{config_root}}/packages/all_lints_generator"
+run = "dart run tool/release.dart"
+
+[tasks.test]
+description = "Run generator package tests"
+dir = "{{config_root}}/packages/all_lints_generator"
+run = "dart test"
+
+[tasks.analyze]
+description = "Run dart analyze across the workspace"
+run = "dart analyze --fatal-infos --fatal-warnings"

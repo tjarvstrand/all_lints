@@ -1,0 +1,60 @@
+name: Nightly regenerate and publish
+
+on:
+  schedule:
+    # 04:17 UTC daily — off-the-hour to avoid GitHub-wide cron contention.
+    - cron: '17 4 * * *'
+  workflow_dispatch:
+    inputs:
+      target_sdk:
+        description: "Specific Dart SDK version (default: latest stable channel from storage.googleapis.com/dart-archive)."
+        required: false
+        type: string
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: nightly
+  cancel-in-progress: false
+
+jobs:
+  regenerate:
+    runs-on: ubuntu-latest
+    outputs:
+      new_version: ${{ steps.prepare.outputs.new_version }}
+      target_sdk: ${{ steps.prepare.outputs.target_sdk }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up mise + environment
+        uses: jdx/mise-action@v2
+
+      - name: Prepare release
+        id: prepare
+        env:
+          TARGET_INPUT: ${{ inputs.target_sdk }}
+        run: mise run release:prepare ${TARGET_INPUT:+--target=${TARGET_INPUT#v}} | tee -a "$GITHUB_OUTPUT"
+
+      - name: Commit + tag + push
+        if: steps.prepare.outputs.new_version != ''
+        env:
+          NEW_VERSION: ${{ steps.prepare.outputs.new_version }}
+          TARGET: ${{ steps.prepare.outputs.target_sdk }}
+          GIT_AUTHOR_NAME: github-actions[bot]
+          GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+        run: |
+          git add packages/all_lints
+          git commit -m "chore: regenerate against Dart ${TARGET} (v${NEW_VERSION})"
+          git tag "v${NEW_VERSION}"
+          git push origin HEAD "v${NEW_VERSION}"
+
+  publish:
+    needs: regenerate
+    if: needs.regenerate.outputs.new_version != ''
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      working-directory: packages/all_lints

@@ -1,0 +1,17 @@
+.dart_tool/
+.packages
+build/
+
+# Per-package lockfiles (the workspace lockfile at the repo root is the
+# source of truth for reproducible regeneration; per-package lockfiles only
+# appear when running `dart pub publish --dry-run` from inside the published
+# package and should not be committed).
+packages/*/pubspec.lock
+
+# Editor / OS
+.idea/
+.vscode/
+.DS_Store
+
+# mise local overrides
+.mise.local.toml
