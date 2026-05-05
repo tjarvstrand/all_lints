@@ -34,18 +34,18 @@ Future<int> _run(List<String> args) async {
   final sdkVersion = sdkOverride ?? _currentSdkVersion();
   final languageVersion = languageOverride ?? _languageVersionOf(sdkVersion);
 
-  stdout.writeln('Dart SDK version:      $sdkVersion');
-  stdout.writeln('Dart language version: $languageVersion');
+  stderr.writeln('Dart SDK version:      $sdkVersion');
+  stderr.writeln('Dart language version: $languageVersion');
 
   final rulesUri = Uri.https(
     'raw.githubusercontent.com',
     '/dart-lang/sdk/$sdkVersion/pkg/linter/tool/machine/rules.json',
   );
-  stdout.writeln('Fetching:              $rulesUri');
+  stderr.writeln('Fetching:              $rulesUri');
   final rulesJson = await _fetch(rulesUri);
 
   final rules = _parseRules(rulesJson);
-  stdout.writeln('Parsed ${rules.length} rules from rules.json');
+  stderr.writeln('Parsed ${rules.length} rules from rules.json');
 
   final dartStable = rules.where((r) => r.bucket == _Bucket.stable && !r.isFlutter).map((r) => r.name).toList()..sort();
   final dartAll = rules.where((r) => r.bucket != _Bucket.excluded && !r.isFlutter).map((r) => r.name).toList()..sort();
@@ -55,14 +55,14 @@ Future<int> _run(List<String> args) async {
     ..sort();
   final excluded = rules.where((r) => r.bucket == _Bucket.excluded).toList()..sort((a, b) => a.name.compareTo(b.name));
 
-  stdout.writeln('  dart stable / all:    ${dartStable.length} / ${dartAll.length}');
-  stdout.writeln('  flutter stable / all: ${flutterStable.length} / ${flutterAll.length}');
-  stdout.writeln(
+  stderr.writeln('  dart stable / all:    ${dartStable.length} / ${dartAll.length}');
+  stderr.writeln('  flutter stable / all: ${flutterStable.length} / ${flutterAll.length}');
+  stderr.writeln(
     '  excluded:             ${excluded.length} '
     '(deprecated/removed/internal — see list below)',
   );
   for (final r in excluded) {
-    stdout.writeln('    - ${r.name} (${r.exclusionReason})');
+    stderr.writeln('    - ${r.name} (${r.exclusionReason})');
   }
 
   final libDir = Directory('${_resolvePublishedPackageRoot()}/lib');
@@ -123,7 +123,7 @@ Future<int> _run(List<String> args) async {
       }
     }
     await File(f.path).writeAsString(body);
-    stdout.writeln('Wrote ${f.path} (${f.rules.length} rules)');
+    stderr.writeln('Wrote ${f.path} (${f.rules.length} rules)');
   }
 
   return 0;

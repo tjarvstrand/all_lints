@@ -1,4 +1,4 @@
-name: Nightly regenerate and publish
+name: Nightly regenerate
 
 on:
   schedule:
@@ -11,10 +11,6 @@ on:
         required: false
         type: string
 
-permissions:
-  contents: write
-  id-token: write
-
 concurrency:
   group: nightly
   cancel-in-progress: false
@@ -22,11 +18,10 @@ concurrency:
 jobs:
   regenerate:
     runs-on: ubuntu-latest
-    outputs:
-      new_version: ${{ steps.prepare.outputs.new_version }}
-      target_sdk: ${{ steps.prepare.outputs.target_sdk }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.RELEASE_PUSH_TOKEN }}
 
       - name: Set up mise + environment
         uses: jdx/mise-action@v2
@@ -35,7 +30,7 @@ jobs:
         id: prepare
         env:
           TARGET_INPUT: ${{ inputs.target_sdk }}
-        run: mise run release:prepare ${TARGET_INPUT:+--target=${TARGET_INPUT#v}} | tee -a "$GITHUB_OUTPUT"
+        run: mise -q run release:prepare ${TARGET_INPUT:+--target=${TARGET_INPUT#v}} | tee -a "$GITHUB_OUTPUT"
 
       - name: Commit + tag + push
         if: steps.prepare.outputs.new_version != ''
@@ -51,10 +46,3 @@ jobs:
           git commit -m "chore: regenerate against Dart ${TARGET} (v${NEW_VERSION})"
           git tag "v${NEW_VERSION}"
           git push origin HEAD "v${NEW_VERSION}"
-
-  publish:
-    needs: regenerate
-    if: needs.regenerate.outputs.new_version != ''
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      working-directory: packages/all_lints

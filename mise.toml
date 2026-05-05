@@ -1,3 +1,10 @@
+experimental_monorepo_root = true
+
+[settings]
+task.output = "quiet"
+experimental = true
+auto_install = true
+
 [tools]
 dart = "3.11.2"
 
@@ -14,6 +21,11 @@ sources = ["packages/all_lints_generator/tool/generate.dart", "pubspec.lock", "m
 description = "Prepare a patch release for the latest stable Dart SDK (regenerate, bump, write CHANGELOG entry)"
 dir = "{{config_root}}/packages/all_lints_generator"
 run = "dart run tool/release.dart"
+
+[tasks."release:publish"]
+description = "Publish the all_lints package to pub.dev (uses ambient OIDC env vars in CI)"
+dir = "{{config_root}}/packages/all_lints"
+run = "dart pub publish --force"
 
 [tasks.test]
 description = "Run generator package tests"
