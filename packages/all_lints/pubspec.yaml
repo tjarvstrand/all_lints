@@ -2,7 +2,7 @@ name: all_lints
 description: >-
   Analysis options that enable every available Dart lint rule, for projects
   that prefer to choose which rules to disable rather than which to enable.
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/tjarvstrand/all_lints
 
 environment:
