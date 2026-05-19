@@ -5,9 +5,9 @@
 #   Dart SDK version:      3.12.0
 #   Dart language version: 3.12
 # Generated on:            2026-05-19
-# Variant:                 flutter_stable
+# Variant:                 flutter_all
 # Rule count:              12 (additional, on top of include)
-# Pinning:                 unversioned-latest
+# Pinning:                 pinned-to-language-3.12
 #
 # Some rules in this list are mutually exclusive (e.g. prefer_single_quotes
 # vs prefer_double_quotes). Disable the one you do not want in your own
@@ -16,7 +16,7 @@
 # If your project pubspec sdk lower bound is below the language version above,
 # some rules in this list may not fire on your code.
 
-include: package:all_lints/dart_stable.yaml
+include: package:all_lints/dart_all_3_12.yaml
 
 linter:
   rules:

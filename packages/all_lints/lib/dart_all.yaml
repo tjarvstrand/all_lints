@@ -2,11 +2,11 @@
 # Regenerate with: mise run generate
 #
 # Generated against:
-#   Dart SDK version:      3.11.5
-#   Dart language version: 3.11
-# Generated on:            2026-05-05
+#   Dart SDK version:      3.12.0
+#   Dart language version: 3.12
+# Generated on:            2026-05-19
 # Variant:                 dart_all
-# Rule count:              221
+# Rule count:              222
 # Pinning:                 unversioned-latest
 #
 # Some rules in this list are mutually exclusive (e.g. prefer_single_quotes
@@ -113,7 +113,7 @@ linter:
     - no_leading_underscores_for_library_prefixes
     - no_leading_underscores_for_local_identifiers
     - no_literal_bool_comparisons
-    - no_runtimeType_toString
+    - no_runtimetype_tostring
     - no_self_assignments
     - no_wildcard_variable_uses
     - non_constant_identifier_names
@@ -158,7 +158,7 @@ linter:
     - prefer_is_empty
     - prefer_is_not_empty
     - prefer_is_not_operator
-    - prefer_iterable_whereType
+    - prefer_iterable_wheretype
     - prefer_mixin
     - prefer_null_aware_method_calls
     - prefer_null_aware_operators
@@ -238,4 +238,5 @@ linter:
     - use_to_and_as_if_applicable
     - use_truncating_division
     - valid_regexps
+    - var_with_no_type_annotation
     - void_checks

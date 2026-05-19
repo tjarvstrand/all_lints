@@ -5,9 +5,9 @@
 #   Dart SDK version:      3.12.0
 #   Dart language version: 3.12
 # Generated on:            2026-05-19
-# Variant:                 dart_stable
-# Rule count:              212
-# Pinning:                 unversioned-latest
+# Variant:                 dart_all
+# Rule count:              222
+# Pinning:                 pinned-to-language-3.12
 #
 # Some rules in this list are mutually exclusive (e.g. prefer_single_quotes
 # vs prefer_double_quotes). Disable the one you do not want in your own
@@ -24,6 +24,7 @@ linter:
     - always_specify_types
     - always_use_package_imports
     - annotate_overrides
+    - annotate_redeclares
     - avoid_annotating_with_dynamic
     - avoid_bool_literals_in_conditional_expressions
     - avoid_catches_without_on_clauses
@@ -37,6 +38,7 @@ linter:
     - avoid_field_initializers_in_const_classes
     - avoid_final_parameters
     - avoid_function_literals_in_foreach_calls
+    - avoid_futureor_void
     - avoid_implementing_value_types
     - avoid_init_to_null
     - avoid_js_rounded_ints
@@ -91,6 +93,8 @@ linter:
     - hash_and_equals
     - implementation_imports
     - implicit_call_tearoffs
+    - implicit_reopen
+    - invalid_case_patterns
     - invalid_runtime_check_with_js_interop_types
     - join_return_with_assignment
     - leading_newlines_in_multiline_strings
@@ -104,6 +108,7 @@ linter:
     - missing_code_block_language_in_doc_comment
     - missing_whitespace_between_adjacent_strings
     - no_adjacent_strings_in_list
+    - no_default_cases
     - no_duplicate_case_values
     - no_leading_underscores_for_library_prefixes
     - no_leading_underscores_for_local_identifiers
@@ -185,6 +190,7 @@ linter:
     - type_literal_in_constant_pattern
     - unawaited_futures
     - unintended_html_in_doc_comment
+    - unnecessary_async
     - unnecessary_await_in_return
     - unnecessary_brace_in_string_interps
     - unnecessary_breaks
@@ -200,6 +206,7 @@ linter:
     - unnecessary_new
     - unnecessary_null_aware_assignments
     - unnecessary_null_aware_operator_on_extension_on_nullable
+    - unnecessary_null_checks
     - unnecessary_null_in_if_null_operators
     - unnecessary_nullable_for_final_variable_declarations
     - unnecessary_overrides
@@ -214,9 +221,11 @@ linter:
     - unnecessary_underscores
     - unreachable_from_main
     - unrelated_type_equality_checks
+    - unsafe_variance
     - use_enums
     - use_function_type_syntax_for_parameters
     - use_is_even_rather_than_modulo
+    - use_late_for_private_fields_and_variables
     - use_named_constants
     - use_null_aware_elements
     - use_raw_strings
@@ -224,6 +233,7 @@ linter:
     - use_setters_to_change_properties
     - use_string_buffers
     - use_string_in_part_of_directives
+    - use_super_parameters
     - use_test_throws_matchers
     - use_to_and_as_if_applicable
     - use_truncating_division
